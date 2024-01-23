@@ -13,6 +13,7 @@ class User(BaseModel):
     
     
     
+    
     @validator('dob')
     def validate_DOB(cls, value):
         try:
@@ -20,7 +21,8 @@ class User(BaseModel):
 
         except ValueError:
             raise ValueError ("DOB needs to be in YYYY-MM--DD Format")
-
+        
+    
 
 
 class UserUpdate(BaseModel):
@@ -29,7 +31,7 @@ class UserUpdate(BaseModel):
     fname : constr(min_length=3, max_length=20) = None
     lname : constr(min_length=2, max_length=20) = None
     address : str = None
-    dob : str = None
+    dob : str= None
     gender : constr(min_length=1, max_length=6) = None
     
 
