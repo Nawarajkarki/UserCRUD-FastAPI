@@ -17,7 +17,7 @@ class User(BaseModel):
     @validator('dob')
     def validate_DOB(cls, value):
         try:
-            return date.fromisoformat(value)
+            return str(date.fromisoformat(value))
 
         except ValueError:
             raise ValueError ("DOB needs to be in YYYY-MM--DD Format")

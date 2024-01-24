@@ -5,9 +5,7 @@ from src.User.model.model import User, UserUpdate
 
 
 
-
-
-user = APIRouter(prefix="/api/v1/users", tags=['USERS'])
+user = APIRouter(prefix="/api/v1/users", tags=['Users'])
 
 
 @user.get('/')

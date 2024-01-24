@@ -1,9 +1,11 @@
 from fastapi import FastAPI, status
 from src.User.router.router import user
+from src.Blog.router.router import Blog
 
 app = FastAPI()
 
 app.include_router(user)
+app.include_router(Blog)
 
 @app.get('/')
 def welcome():

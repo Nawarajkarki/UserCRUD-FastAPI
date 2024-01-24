@@ -1,5 +1,6 @@
 from src.entrypoint.database import users
-from fastapi import status
+from fastapi import status, HTTPException
+from fastapi.responses import JSONResponse
 from src.User.model.model import User, UserUpdate
 
 
@@ -21,29 +22,34 @@ class InMemory():
         user = self.users.get(username)
 
         if user is None:
-            return ({
-                "msg" : "Failed",
-                "Error msg" : "Invalid Username",
-                "status" : status.HTTP_404_NOT_FOUND
-            })
-            
-        return ({
-            "msg" : "Success",
-            "User Info" : self.users[username],
-            "status" : status.HTTP_202_ACCEPTED
-        })
-    
+            return HTTPException(
+                status_code = status.HTTP_404_NOT_FOUND,
+                detail = {
+                    "msg" : "Failed",
+                    "Error mag" : "f User with username:{username} doesn't exist"
+                }
+            )
+        
+        return JSONResponse(
+            content = {
+                "msg" : "Success",
+                "User Info" : self.users[username]
+            },
+            status_code = status.HTTP_302_FOUND
+        )
     
     
     def post(self, user : User):
         
         try:
             if self.users.get(user.username) is not None:
-                return {
-                    "msg" : "Failed",
-                    "Error msg" : "User with this username already exists",
-                    "status" : status.HTTP_400_BAD_REQUEST
-                }
+                return HTTPException(
+                    status_code = status.HTTP_404_NOT_FOUND,
+                    detail = {
+                        "msg" : "Failed",
+                        "Error msg" : f"User with username : {user.username} already exist."
+                    }
+                )
             
             self.users[user.username] = {
                 "username" : user.username,
@@ -55,36 +61,46 @@ class InMemory():
                 "gender" : user.gender
             }
             
-            return ({
-                "msg" : "Success",
-                "Username" : user.username,
-                "status" : status.HTTP_200_OK
-            })
+            return JSONResponse(
+                content = {
+                    "msg" : "Success",
+                    "Username" : user.username,
+                },
+                status_code = status.HTTP_200_OK
+                
+            )
         
         except Exception as e:
-            return ({
-                "msg" : "Failed",
-                "Error msg" : f"{e}",
-                "status" : status.HTTP_501_NOT_IMPLEMENTED
-            })
+            return HTTPException (
+                detail = {
+                    "msg" : "Failed",
+                    "Error msg" : f"{e}",
+                },
+                status_code =  status.HTTP_501_NOT_IMPLEMENTED
+            )
             
             
     def put(self, username, new_udata : UserUpdate):
         
         user = self.users.get(username)
         if user is None:
-            return {
-                "msg" : "Failed",
-                "Error message" : "User with that username not available",
-                'status' : status.HTTP_404_NOT_FOUND
-            }
+            return HTTPException( 
+                detail = {
+                    "msg" : "Failed",
+                    "Error message" : "User with that username not available"
+                },
+                status_code = status.HTTP_404_NOT_FOUND
+            )
         
         if new_udata.username is not None:
-            return {
-                "msg" : "Failed",
-                "Error message" : "Username cannot be updated",
-                'status' : status.HTTP_400_BAD_REQUEST
-            }
+            return HTTPException( 
+                detail = {
+                    "msg" : "Failed",
+                "Error message" : "Username cannot be updated"
+                },
+                status_code = status.HTTP_400_BAD_REQUEST
+            )
+            
         
         if new_udata.email is not None:
             user['email'] = new_udata.email
@@ -105,31 +121,39 @@ class InMemory():
             user['gender'] = new_udata.gender
             
         
-        return {
-            "msg" : "Success",
-            "User Info" : self.users.get(username),
-            'status' : status.HTTP_200_OK
-        }
-            
+        return JSONResponse(
+            content = {
+                "msg" : "Success",
+                "User Info" : self.users.get(username)
+            },
+            status_code = status.HTTP_200_OK
+        )
 
     def delete(self, username : str):
         
         user = self.users.get(username)
         if user is None:
-            return {
-                "msg" : "Failed",
-                "Error msg" : "User doesnot exist",
-                "status" : status.HTTP_400_BAD_REQUEST
-            }
+            return HTTPException(
+                content = {
+                    "msg" : "Failed",
+                    "Error msg" : "User doesnot exist"
+                },
+                
+            )
+                
         
-        del self.users[username
-                       ]
-        return {
-            "msg" : "Success",
-            "User Info" : self.users.get(username),
-            "status" : status.HTTP_202_ACCEPTED
-        }
-
+            
+        
+        del self.users[username]
+        
+        return JSONResponse(
+            content = {
+                "msg" : "success",
+                "User Info" : self.users.get(username)
+            },
+            status_code = status.HTTP_202_ACCEPTED
+        )
+        
 
 
 repo = InMemory

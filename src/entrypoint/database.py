@@ -7,13 +7,13 @@ users = {}
 #         "lname" : "karki"
 #     },
 #     "nawaraj1" : {
-#         "username" : "nawaraj",
+#         "username" : "nawaraj1",
 #         "email" : "nawaraj@gmail.com",
 #         "fname" : "nawaraj",
 #         "lname" : "karki"
 #     },
 #     "nawaraj2" : {
-#         "username" : "nawaraj",
+#         "username" : "nawaraj2",
 #         "email" : "nawaraj@gmail.com",
 #         "fname" : "nawaraj",
 #         "lname" : "karki"
