@@ -156,4 +156,4 @@ class InMemory():
         
 
 
-repo = InMemory
+UserRepository = InMemory

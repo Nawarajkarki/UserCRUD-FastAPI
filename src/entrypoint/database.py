@@ -1,4 +1,5 @@
 users = {}
+
 # users = {
 #     "nawaraj" : {
 #         "username" : "nawaraj",
@@ -17,5 +18,28 @@ users = {}
 #         "email" : "nawaraj@gmail.com",
 #         "fname" : "nawaraj",
 #         "lname" : "karki"
+#     }
+# }
+
+blogs = {}
+
+# blogs = {
+#     1: {
+#         'posted_by' : "username",
+#         "title" : "blog title",
+#         "content" : "blog content",
+#         "date" : "date time posted"
+#     },
+#      2: {
+#         'posted_by' : "username",
+#         "title" : "blog title",
+#         "content" : "blog content",
+#         "date" : "date time posted"
+#     },
+#     3 : {
+#         'posted_by' : "username",
+#         "title" : "blog title",
+#         "content" : "blog content",
+#         "date" : "date time posted"
 #     }
 # }
