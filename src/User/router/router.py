@@ -27,3 +27,6 @@ def update_userinfo(username:str, new_udata : UserUpdate):
 @user.delete('/{username}')
 def delete_user(username : str):
     return user_service().delete(username = username)
+
+
+

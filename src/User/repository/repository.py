@@ -106,7 +106,7 @@ class InMemory():
             user['email'] = new_udata.email
 
         if new_udata.fname is not None:
-            user['fname'] = new_udata.email
+            user['fname'] = new_udata.fname
 
         if new_udata.lname is not None:
             user['lname'] = new_udata.lname
@@ -156,4 +156,4 @@ class InMemory():
         
 
 
-repo = InMemory
+UserRepository = InMemory

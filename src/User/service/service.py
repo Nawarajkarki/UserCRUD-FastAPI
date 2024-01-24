@@ -1,11 +1,11 @@
-from src.User.repository.repository import repo
+from src.User.repository.repository import UserRepository
 
 
 
 class UserOperations():
     
     def __init__(self):
-        self.user_repo = repo()
+        self.user_repo = UserRepository()
     
     
     def get(self, username:str):
