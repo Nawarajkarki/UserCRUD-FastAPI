@@ -10,19 +10,18 @@ class InMemory():
         self.users = users
         
     
-    def get(self, username:str):
+    def get(self, username:str, status_code=status.HTTP_202_ACCEPTED):
         
         if username == 'all':
             return ({
                 "msg" : "Success",
                 "User Info" : self.users,
-                "status" : status.HTTP_202_ACCEPTED
             })
             
         user = self.users.get(username)
 
         if user is None:
-            return HTTPException(
+            raise HTTPException(
                 status_code = status.HTTP_404_NOT_FOUND,
                 detail = {
                     "msg" : "Failed",
@@ -35,7 +34,6 @@ class InMemory():
                 "msg" : "Success",
                 "User Info" : self.users[username]
             },
-            status_code = status.HTTP_302_FOUND
         )
     
     
@@ -43,7 +41,7 @@ class InMemory():
         
         try:
             if self.users.get(user.username) is not None:
-                return HTTPException(
+                raise HTTPException(
                     status_code = status.HTTP_404_NOT_FOUND,
                     detail = {
                         "msg" : "Failed",
@@ -66,17 +64,15 @@ class InMemory():
                     "msg" : "Success",
                     "Username" : user.username,
                 },
-                status_code = status.HTTP_200_OK
-                
             )
         
         except Exception as e:
-            return HTTPException (
+            raise HTTPException (
+                status_code =  status.HTTP_501_NOT_IMPLEMENTED,
                 detail = {
                     "msg" : "Failed",
                     "Error msg" : f"{e}",
                 },
-                status_code =  status.HTTP_501_NOT_IMPLEMENTED
             )
             
             
@@ -84,7 +80,7 @@ class InMemory():
         
         user = self.users.get(username)
         if user is None:
-            return HTTPException( 
+            raise HTTPException( 
                 detail = {
                     "msg" : "Failed",
                     "Error message" : "User with that username not available"
@@ -93,7 +89,7 @@ class InMemory():
             )
         
         if new_udata.username is not None:
-            return HTTPException( 
+            raise HTTPException( 
                 detail = {
                     "msg" : "Failed",
                 "Error message" : "Username cannot be updated"
@@ -125,23 +121,20 @@ class InMemory():
             content = {
                 "msg" : "Success",
                 "User Info" : self.users.get(username)
-            },
-            status_code = status.HTTP_200_OK
+            }
         )
 
     def delete(self, username : str):
         
         user = self.users.get(username)
         if user is None:
-            return HTTPException(
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
                 content = {
                     "msg" : "Failed",
                     "Error msg" : "User doesnot exist"
                 },
-                
             )
-                
-        
             
         
         del self.users[username]
@@ -151,7 +144,6 @@ class InMemory():
                 "msg" : "success",
                 "User Info" : self.users.get(username)
             },
-            status_code = status.HTTP_202_ACCEPTED
         )
         
 

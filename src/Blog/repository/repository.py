@@ -1,7 +1,7 @@
 from src.entrypoint.database import blogs
 from src.Blog.model.model import Blog, BlogUpdate
 
-from fastapi import status, HTTPException
+from fastapi import status, HTTPException, JSONResponse
 
 
 
@@ -14,13 +14,16 @@ class InMemoryBlog():
     
     def get(self, blog_id):
         if blog_id == 'all':
-            return {
+            return JSONResponse (
+                details = {
+                    
                 'msg' : 'Success',
                 "Blogs" : self.blog,
-                'status' : status.HTTP_200_OK
-            }
+                },
+                status_code = status.HTTP_200_OK
+            )
         if self.blog.get(blog_id) is None:
-            return HTTPException(
+            raise HTTPException(
                 detail= {
                     'msg' : 'failed',
                     'Error' : "Blog id did not match"
@@ -58,7 +61,7 @@ class InMemoryBlog():
             }
         
         except Exception as e:
-            return HTTPException(
+            raise HTTPException(
                 detail= "Failed",
                 status_code = status.HTTP_501_NOT_IMPLEMENTED,
             )
