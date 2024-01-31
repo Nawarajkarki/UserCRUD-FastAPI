@@ -7,8 +7,10 @@ blog = APIRouter(prefix='/api/v1/blogs', tags=['Blogs'])
 
 @blog.get('/')
 def get_blog(blog_id = 'all'):
-    return BlogService.get(blog_id)
-    
+    try:
+        return BlogService.get(blog_id)
+    except Exception as e:
+        return {'m' : "fail", 'error' : e}
 
 @blog.get('/{blog_id}')
 def get_blog(blog_id : int):
