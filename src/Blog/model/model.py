@@ -1,5 +1,4 @@
 from pydantic import BaseModel, validator, constr
-from src.User.repository.repository import UserRepository
 
 
 class Blog(BaseModel):

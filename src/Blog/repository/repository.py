@@ -1,7 +1,8 @@
 from src.entrypoint.database import blogs
 from src.Blog.model.model import Blog, BlogUpdate
 
-from fastapi import status, HTTPException, JSONResponse
+from fastapi import status, HTTPException
+from fastapi.responses import JSONResponse
 
 
 
@@ -13,29 +14,36 @@ class InMemoryBlog():
         
     
     def get(self, blog_id):
-        if blog_id == 'all':
-            return JSONResponse (
-                details = {
-                    
-                'msg' : 'Success',
-                "Blogs" : self.blog,
-                },
-                status_code = status.HTTP_200_OK
-            )
-        if self.blog.get(blog_id) is None:
-            raise HTTPException(
-                detail= {
-                    'msg' : 'failed',
-                    'Error' : "Blog id did not match"
-                },
-                status_code = status.HTTP_404_NOT_FOUND
-            )
-            
-        return {
-            "msg" : "Success",
-            "Blog_content" : self.blog[blog_id],
-            'status' : status.HTTP_200_OK
-        }
+        try:
+            if blog_id == 'all':
+                return ({
+                    'msg' : 'success',
+                    'blogs' : self.blog
+                })
+                # return JSONResponse (
+                #     details = {
+                        
+                #     'msg' : 'Success',
+                #     "Blogs" : self.blog,
+                #     },
+                #     status_code = status.HTTP_200_OK
+                # )
+            if self.blog.get(blog_id) is None:
+                raise HTTPException(
+                    detail= {
+                        'msg' : 'failed',
+                        'Error' : "Blog id did not match"
+                    },
+                    status_code = status.HTTP_404_NOT_FOUND
+                )
+                
+            return {
+                "msg" : "Success",
+                "Blog_content" : self.blog[blog_id],
+                'status' : status.HTTP_200_OK
+            }
+        except Exception as e:
+            return {'m' : "fail inrepo", 'error' : e}
         
         
         

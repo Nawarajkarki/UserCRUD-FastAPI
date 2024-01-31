@@ -9,23 +9,17 @@ class BlogOperation():
         self.now = datetime.now()
     
     def get(self, blog_id):
-        resp = self.blog.get(blog_id)
-        return resp
+        try:
+            resp = self.blog.get(blog_id)
+            return resp
+        except Exception as e:
+            return e
+            
     
     def post(self, blog_content):
         author = blog_content.author
 
-        print(self.user_repo.get(author))
         user_check = (self.user_repo.get(author))
-        
-        
-        if user_check.status_code == 404:
-            print(self.user_repo.get(author))
-            return {
-                "msg" : "Failed",
-                "Error" : "invalid username"
-            }
-            
         
         resp = self.blog.post(now = self.now, blog_content=blog_content)
         return resp
